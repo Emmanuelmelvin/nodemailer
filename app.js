@@ -34,11 +34,11 @@ const sendMail = async () => {
         });
 
         const mailOptions = {
-            from: 'EMMANUEL CHIDI <emmmaishim@google.com>',
-            to: 'chidiemmanuel2005@gmail.com',
+            from: 'EMMANUEL CHIDI <chidiemmanuel2005@gmail.com>',
+            to: 'emmachid@outlook.com',
             subject: "Hello from gmail using API",
-            text: "Hello bro",
-            html: '<h1>Hello bro</h1>'
+            text: "Dear Emmanuel, This message is from an API on JS",
+            html: '<div>Hello bro</div>'
         }
         const result = await transporter.sendMail(mailOptions)
         return result
