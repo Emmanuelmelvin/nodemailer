@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer')
 const { google } = require("googleapis")
+const fs = require('fs');
+const path = require('path');
+
 
 require('dotenv').config()
 
@@ -11,6 +14,19 @@ const oAuth2Client = new google.auth.OAuth2(
 )
 
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
+
+
+const readHTMLFile = (filePath) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, { encoding: 'utf-8' }, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
 
 const sendMail = async () => {
     try {
@@ -26,19 +42,18 @@ const sendMail = async () => {
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 refreshToken: process.env.REFRESH_TOKEN,
-                accessToken // Ensure you have the access token
+                accessToken // Ensure you have the access tok
             },
             connectionTimeout: 2 * 60 * 1000, // 2 minutes
             greetingTimeout: 2 * 60 * 1000, // 2 minutes
             socketTimeout: 2 * 60 * 1000 // 2 minutes
         });
-
+        const htmlContent = await readHTMLFile(path.join(__dirname, 'test.html'));
         const mailOptions = {
             from: 'EMMANUEL CHIDI <chidiemmanuel2005@gmail.com>',
             to: 'emmachid@outlook.com',
             subject: "Hello from gmail using API",
-            text: "Dear Emmanuel, This message is from an API on JS",
-            html: '<div>Hello bro</div>'
+            html: htmlContent
         }
         const result = await transporter.sendMail(mailOptions)
         return result
