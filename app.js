@@ -64,7 +64,7 @@ const sendMail = async () => {
 
 sendMail()
     .then(result => {
-        console.log("Email sent successfully")
+        console.log("Email sent successfully!")
         console.log(result)
     })
     .catch(error => {
